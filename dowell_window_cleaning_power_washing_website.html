@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dowell Window Cleaning and Power Washing LLC</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1e3a8a',
+                            900: '#0f172a',
+                        },
+                        sky: {
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Notification Modal (Custom Alert replacement) -->
+    <div id="notification-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all">
+            <div class="text-center">
+                <div id="modal-icon" class="w-16 h-16 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 id="modal-title" class="text-xl font-bold text-slate-900 mb-2">Request Received!</h3>
+                <p id="modal-message" class="text-slate-600 mb-6">Thank you! Matthew and his team will get back to you shortly with your free quote.</p>
+                <button onclick="closeModal()" class="w-full bg-navy-900 text-white py-3 rounded-xl font-semibold hover:bg-sky-600 transition-colors">
+                    Got It
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="bg-navy-900 text-slate-200 text-xs sm:text-sm py-2 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span><i class="fa-solid fa-clock text-sky-400 mr-1.5"></i> Mon - Sat: 8:00 AM - 5:00 PM</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-shield-halved text-sky-400 mr-1.5"></i> Licensed & Insured Local Experts</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="tel:7659138477" class="hover:text-sky-400 font-bold transition-colors">
+                    <i class="fa-solid fa-phone text-sky-400 mr-1"></i> (765) 913-8477
+                </a>
+                <div class="flex items-center text-amber-400 text-xs bg-navy-800 px-2.5 py-1 rounded-full border border-slate-700">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <span class="text-white ml-1.5 font-semibold">5.0 (11 Reviews)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-sky-500 to-navy-900 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
+                    <i class="fa-solid fa-house-chimney-window"></i>
+                </div>
+                <div>
+                    <span class="block font-black text-lg sm:text-xl text-navy-900 tracking-tight leading-none">DOWELL</span>
+                    <span class="block text-xs font-semibold text-sky-600 tracking-wider uppercase mt-0.5">Window & Pressure Washing</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-slate-600">
+                <a href="#services" class="hover:text-sky-600 transition-colors">Services</a>
+                <a href="#about" class="hover:text-sky-600 transition-colors">About Matthew</a>
+                <a href="#reviews" class="hover:text-sky-600 transition-colors">Reviews</a>
+                <a href="#quote" class="hover:text-sky-600 transition-colors">Instant Quote</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="flex items-center gap-3">
+                <a href="#quote" class="hidden sm:inline-flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg shadow-sky-500/20 transition-all transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-calculator mr-2"></i> Get a Free Quote
+                </a>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 text-slate-700 hover:text-sky-600 focus:outline-none">
+                    <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+            <a href="#services" onclick="toggleMobileMenu()" class="block font-medium text-slate-700 hover:text-sky-600 py-1">Services</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block font-medium text-slate-700 hover:text-sky-600 py-1">About Matthew</a>
+            <a href="#reviews" onclick="toggleMobileMenu()" class="block font-medium text-slate-700 hover:text-sky-600 py-1">Reviews</a>
+            <a href="#quote" onclick="toggleMobileMenu()" class="block font-medium text-slate-700 hover:text-sky-600 py-1">Instant Quote</a>
+            <div class="pt-2">
+                <a href="tel:7659138477" class="w-full flex items-center justify-center bg-navy-900 text-white py-3 rounded-xl font-semibold">
+                    <i class="fa-solid fa-phone mr-2"></i> Call (765) 913-8477
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-navy-900 via-navy-800 to-slate-900 text-white py-20 lg:py-32 overflow-hidden">
+        <!-- Background decorative glow -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-sky-400 text-xs sm:text-sm font-semibold tracking-wide">
+                        <span class="flex h-2 w-2 rounded-full bg-sky-400 animate-pulse"></span>
+                        Trusted Local Christian Service in Indiana
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Sparkling Windows, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-300">Powerful Clean</span>
+                    </h1>
+                    
+                    <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal">
+                        Revitalize your home, siding, roof, and gutters with Matthew and the team at Dowell Window Cleaning and Power Washing. Honest, dependable work at reasonable prices.
+                    </p>
+
+                    <!-- Rating badge box -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <div class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-2xl backdrop-blur-sm">
+                            <div class="text-amber-400 flex gap-1 text-sm">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-medium">Google Rating</p>
+                                <p class="text-sm font-bold text-white">5.0 Stars (11 Verified Reviews)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#quote" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-sky-500/30 transition-all text-center">
+                            <i class="fa-solid fa-calendar-check mr-2"></i> Request Free Quote
+                        </a>
+                        <a href="tel:7659138477" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold px-8 py-4 rounded-xl backdrop-blur-sm transition-all text-center">
+                            <i class="fa-solid fa-phone mr-2"></i> (765) 913-8477
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image Card Grid -->
+                <div class="lg:col-span-5">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <div class="bg-gradient-to-tr from-sky-500/20 to-transparent p-4 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-md">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-4">
+                                    <div class="h-44 sm:h-52 rounded-2xl overflow-hidden shadow-lg relative group">
+                                        <img src="https://placehold.co/400x500/0f172a/0ea5e9?text=Window+Cleaning" alt="Window Cleaning" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent flex items-end p-4">
+                                            <span class="text-white font-bold text-sm">Window Cleaning</span>
+                                        </div>
+                                    </div>
+                                    <div class="h-32 sm:h-36 rounded-2xl overflow-hidden shadow-lg relative group">
+                                        <img src="https://placehold.co/400x300/1e3a8a/38bdf8?text=Gutter+Cleaning" alt="Gutter Cleaning" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent flex items-end p-4">
+                                            <span class="text-white font-bold text-sm">Gutter Clearing</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-4 pt-6">
+                                    <div class="h-32 sm:h-36 rounded-2xl overflow-hidden shadow-lg relative group">
+                                        <img src="https://placehold.co/400x300/0284c7/bae6fd?text=Power+Washing" alt="Power Washing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent flex items-end p-4">
+                                            <span class="text-white font-bold text-sm">Power Washing</span>
+                                        </div>
+                                    </div>
+                                    <div class="h-44 sm:h-52 rounded-2xl overflow-hidden shadow-lg relative group">
+                                        <img src="https://placehold.co/400x500/0f172a/38bdf8?text=Camper+Siding" alt="Camper Restoration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent flex items-end p-4">
+                                            <span class="text-white font-bold text-sm">Camper & RV Revival</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sky-600 font-bold tracking-wider uppercase text-sm bg-sky-50 px-3 py-1 rounded-full">Our Professional Services</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 mb-4">Complete Exterior Cleaning Solutions</h2>
+                <p class="text-slate-600 text-base sm:text-lg">From delicate window panes to heavy-duty power washing, Matthew and his crew bring top-tier results to your property.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Service 1 -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-3xl p-8 hover:shadow-xl hover:border-sky-300 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-sky-500 text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-md shadow-sky-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-window-maximize"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Window Cleaning</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">Crystal clear exterior and interior window cleaning. Remove stubborn hard water spots, dust, and pollen to let the sunshine into your home.</p>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-slate-700 border-t border-slate-200 pt-4">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-500"></i> Streak-free guarantee</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-500"></i> Screen & sill cleaning</li>
+                    </ul>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-3xl p-8 hover:shadow-xl hover:border-sky-300 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-navy-900 text-sky-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-md group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Power & Pressure Washing</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">Safe, effective high-pressure or soft-wash cleaning for house siding, concrete porches, driveways, decks, and even weathered campers/RVs covered in tree sap!</p>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-slate-700 border-t border-slate-200 pt-4">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-500"></i> Siding & Porches</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-500"></i> Campers, RVs & Boats</li>
+                    </ul>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-3xl p-8 hover:shadow-xl hover:border-sky-300 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-sky-500 text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-md shadow-sky-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-house-laptop"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Roof & Gutter Cleaning</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">Protect your home's foundation and roof integrity by safely removing debris, leaves, and blockages from your gutters and roof valleys.</p>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-slate-700 border-t border-slate-200 pt-4">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-500"></i> Full debris removal</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-500"></i> Downspout flush check</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Why Choose Us Section -->
+    <section id="about" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-sky-400 font-bold tracking-wider uppercase text-sm bg-sky-950 px-3 py-1 rounded-full border border-sky-800">Why Homeowners Trust Matthew</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Honest Christian Service & Unmatched Quality</h2>
+                    <p class="text-slate-300 text-base leading-relaxed">
+                        At Dowell Window Cleaning and Power Washing LLC, we treat every property like our own. Led by Matthew, our crew is known for fast quote turnaround times, affordable pricing, and meticulous attention to detail.
+                    </p>
+                    
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-sky-500/20 text-sky-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Fast Same-Week Quotes & Service</h4>
+                                <p class="text-slate-400 text-sm">Need a job done quickly? We provide prompt quotes and get out to complete the work the very same week in most cases.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-sky-500/20 text-sky-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-handshake-angle"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Honest & Reasonable Pricing</h4>
+                                <p class="text-slate-400 text-sm">Fair, transparent quotes with zero hidden fees. We believe in honest business practices and treating people right.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-sky-500/20 text-sky-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Perfect 5.0 Star Rating</h4>
+                                <p class="text-slate-400 text-sm">Our customers speak for us. 11 out of 11 five-star reviews highlight our reliability and exceptional results.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Callout Card -->
+                <div class="lg:col-span-6">
+                    <div class="bg-gradient-to-br from-navy-800 to-slate-800 border border-slate-700 p-8 sm:p-10 rounded-3xl shadow-2xl relative">
+                        <div class="absolute -top-4 -right-4 bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
+                            Featured Local Business
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Ready for a spotless home?</h3>
+                        <p class="text-slate-300 mb-6 text-sm">Whether your camper has been sitting under pine trees for years, or your house siding needs immediate care, Matthew is just a phone call away.</p>
+                        
+                        <div class="bg-navy-900/80 rounded-2xl p-6 border border-slate-700/60 mb-6 space-y-3">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-400">Direct Phone:</span>
+                                <a href="tel:7659138477" class="text-sky-400 font-bold hover:underline">(765) 913-8477</a>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-400">Service Area:</span>
+                                <span class="text-white font-medium">Indiana & Surrounding Areas</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-400">Rating:</span>
+                                <span class="text-amber-400 font-semibold"><i class="fa-solid fa-star"></i> 5.0 / 5.0 (11 Reviews)</span>
+                            </div>
+                        </div>
+
+                        <a href="tel:7659138477" class="block w-full text-center bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-sky-500/20 transition-all">
+                            <i class="fa-solid fa-phone mr-2"></i> Call Matthew Now
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials / Reviews Section -->
+    <section id="reviews" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sky-600 font-bold tracking-wider uppercase text-sm bg-sky-50 px-3 py-1 rounded-full">Real Google Reviews</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-navy-900 mt-3 mb-4">What Our Clients Are Saying</h2>
+                <p class="text-slate-600 text-base sm:text-lg">Read feedback from real homeowners who experienced the Dowell difference.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Review 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between relative">
+                    <div>
+                        <div class="text-amber-400 flex gap-1 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-700 italic text-sm leading-relaxed mb-6">
+                            "I have been down sick with cancer and haven't been able to power wash my house. So I called Matthew and his crew. They came over, power washed my house, got up on my roof, cleaned out all my gutters, and did an amazing job. The price was really reasonable. A truly honest Christian man—you need to call him!"
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-slate-100 pt-4">
+                        <div class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center font-bold justify-center text-sm">
+                            JG
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">John Glass</h4>
+                            <p class="text-xs text-slate-500">Google Review · 5 months ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between relative">
+                    <div>
+                        <div class="text-amber-400 flex gap-1 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-700 italic text-sm leading-relaxed mb-6">
+                            "This crew did an amazing job pressure washing my camper. It had sat in the woods for 2 years and was a tree sap mess! After Matthew finished, it looked brand new..."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-slate-100 pt-4">
+                        <div class="w-10 h-10 bg-sky-500 text-white rounded-full flex items-center font-bold justify-center text-sm">
+                            BC
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">Bonnie Clevenger</h4>
+                            <p class="text-xs text-slate-500">Google Review · 5 months ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between relative">
+                    <div>
+                        <div class="text-amber-400 flex gap-1 mb-4 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-700 italic text-sm leading-relaxed mb-6">
+                            "We were in desperate need of our porch and siding needing cleaned. This company came out, gave us a quote, and was out the same week to get the job done. They did a fantastic job and I highly recommend them!"
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-slate-100 pt-4">
+                        <div class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center font-bold justify-center text-sm">
+                            JD
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">Jessie Dowell</h4>
+                            <p class="text-xs text-slate-500">Google Review · 5 months ago</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Free Quote / Contact Form Section -->
+    <section id="quote" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-br from-navy-900 to-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center max-w-xl mx-auto mb-10 relative z-10">
+                    <span class="text-sky-400 font-bold uppercase text-xs tracking-wider bg-white/10 px-3 py-1 rounded-full">Fast Response</span>
+                    <h2 class="text-3xl font-extrabold mt-3 mb-2">Request a Free Estimate</h2>
+                    <p class="text-slate-300 text-sm">Fill out the form below and Matthew will contact you quickly with a fair, no-obligation quote.</p>
+                </div>
+
+                <form id="quote-form" onsubmit="handleQuoteSubmit(event)" class="space-y-6 relative z-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Your Full Name</label>
+                            <input type="text" id="fullname" required class="w-full bg-white/10 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition-colors text-sm" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Phone Number</label>
+                            <input type="tel" id="phone" required class="w-full bg-white/10 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition-colors text-sm" placeholder="(765) 000-0000">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Select Service Needed</label>
+                            <select id="service-type" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-400 transition-colors text-sm">
+                                <option value="Window Cleaning">Window Cleaning</option>
+                                <option value="Power/Pressure Washing">Power / Pressure Washing (House/Siding)</option>
+                                <option value="Camper / RV Washing">Camper / RV Washing</option>
+                                <option value="Roof & Gutter Cleaning">Roof & Gutter Cleaning</option>
+                                <option value="Multiple Services">Multiple Services Package</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Property Address / City</label>
+                            <input type="text" id="address" required class="w-full bg-white/10 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition-colors text-sm" placeholder="City or Zip Code">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Project Details / Notes</label>
+                        <textarea id="notes" rows="3" class="w-full bg-white/10 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition-colors text-sm" placeholder="Tell us a bit about what needs cleaned..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-sky-500/20 transition-all text-center">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Submit Free Quote Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-900 text-slate-400 pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center text-white text-lg">
+                            <i class="fa-solid fa-house-chimney-window"></i>
+                        </div>
+                        <span class="font-bold text-lg text-white tracking-tight">DOWELL</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Professional window cleaning, power washing, gutter clearing, and camper revival services in Indiana. 5-star rated local service you can trust.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Contact Info</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li>
+                            <a href="tel:7659138477" class="hover:text-sky-400 flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-sky-400"></i> (765) 913-8477
+                            </a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-sky-400"></i> Mon - Sat: 8:00 AM - 5:00 PM
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-sky-400"></i> Local Indiana Service Area
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Google Reputation</h4>
+                    <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                        <div class="flex items-center gap-2 text-amber-400 text-sm mb-1">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <span class="text-white font-bold ml-1">5.0 / 5.0</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Based on 11 verified 5-star Google reviews from satisfied homeowners.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs gap-4">
+                <p>&copy; 2026 Dowell Window Cleaning and Power Washing LLC. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#services" class="hover:text-sky-400 transition-colors">Services</a>
+                    <a href="#about" class="hover:text-sky-400 transition-colors">About</a>
+                    <a href="#reviews" class="hover:text-sky-400 transition-colors">Reviews</a>
+                    <a href="#quote" class="hover:text-sky-400 transition-colors">Get Quote</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Menu & Modal -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        function handleQuoteSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('fullname').value;
+            const service = document.getElementById('service-type').value;
+            
+            // Show custom modal
+            document.getElementById('modal-title').innerText = "Quote Request Sent!";
+            document.getElementById('modal-message').innerText = `Thank you, ${name}! Matthew and his crew have received your request for ${service}. They will contact you shortly to confirm details.`;
+            document.getElementById('notification-modal').classList.remove('hidden');
+            
+            // Reset form
+            document.getElementById('quote-form').reset();
+        }
+
+        function closeModal() {
+            document.getElementById('notification-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
